@@ -2,7 +2,7 @@ const quotes = [
     {
       quote: "The way to get started is to quit talking and begin doing.",
       author: "Walt Disney",
-    },
+    }, //,빠뜨리지 말 것
     {
       quote: "Life is what happens when you're busy making other plans.",
       author: "John Lennon",
