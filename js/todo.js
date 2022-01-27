@@ -9,13 +9,16 @@ let toDos = [];
 
 function saveToDos(){
     //localStorage.setItem("todos",toDos);
-    localStorage.setItem("todos",JSON.stringify(toDos));
+    localStorage.setItem(TODOS_KEY,JSON.stringify(toDos));
     
 }
 
 function deleteTodo(event){
     const li = event.target.parentElement;
+    console.log(li.id);
     li.remove();
+    toDos = toDos.filter(toDo => toDo.id !== parseInt(li.id));
+    saveToDos();
     //console.dir(event.target.parentElement.innerText);
     //어떤 버튼이 클릭되었는지 모른다.
     //그래서 event를 받아 event의 Property중 path 어디서 클릭이 발생되었는지 확인한다. 
@@ -24,8 +27,9 @@ function deleteTodo(event){
 
 function paintToDo(newTodo){
     const li = document.createElement("li");
+    li.id = newTodo.id;
     const span = document.createElement("span");
-    span.innerText = newTodo;
+    span.innerText = newTodo.text;
     const button = document.createElement("button");
     button.innerText = "X";
     button.addEventListener("click", deleteTodo);
@@ -38,8 +42,12 @@ function handleToDoSubmit(event){
     event.preventDefault();
     const newTodo = toDoInput.value;
     toDoInput.value = "";
-    toDos.push(newTodo);
-    paintToDo(newTodo);
+    const newTodoObj = {
+        text:newTodo,
+        id:Date.now(),
+    };
+    toDos.push(newTodoObj);
+    paintToDo(newTodoObj);
     saveToDos();
     //console.log(newTodo, toDoInput.value);
 }
@@ -58,6 +66,14 @@ if(savedToDos !== null){
     parsedToDos.forEach(paintToDo);
     //위에 sayhellofunction 대신 parsedToDos.forEach((item)=>console.log("Hello",item)); 화살표 함수를 사용하여 짧게 쓸 수도 있다.
 }
+
+/*
+function sFilter(){ //should return "true" true만 keep
+//array의 item을 유지하고 싶으면 true를 반환해야함
+
+
+}
+*/
 /*
 if(savedToDos !== null){
     const parsedToDos = JSON.parse(savedToDos);
